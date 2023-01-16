@@ -1,15 +1,10 @@
 # fireTR terminal
 
 This terminal application activated with Python 3
+Type help to get list of commands
+You can update terminal, if you want! The code is opened for everyone! The terminal has no secrets that we hide from you.
 
-## List of available commands:
+## plans for 1.3 update:
 
-- **ls** - show all files in current directory
-- **mkdir** - create directory name
-- **rmdir** - remove directory name
-- **cat** - read file in directory name
-- **crf** - create file in directory name
-- **rmf** - remove file in directory name
-- **cd** - set the desired current directory to work with it
-- **version** - current version of FireTR
-- **restart** - restart FireTR
+- config update. It`s could make easier fireTR editing.
+- better extension update. You will be able to make private extension for FireTR.
