@@ -1,7 +1,5 @@
 
 
-        
-
 # Welcome to FireTR
 
 # FireTR - is terminal application, which was written with Python 3.10.2
@@ -28,6 +26,8 @@ working = True
 
 # bcolors class for color text
 
+working = True
+
 
 class bcolors:
     HEADER = B_HEADER
@@ -41,7 +41,23 @@ class bcolors:
     UNDERLINE = B_UNDERLINE
 
 
+# at start
+if (os.path.isdir("extensions")):
+    pass
+else:
+    os.mkdir("extensions")
 
+# init extensions
+
+
+listOfExts = []
+
+for index in range(len(os.listdir("extensions"))):
+    a = os.listdir("extensions")[index]
+
+    removedLast3CharsFromA = a[:-3]
+
+    listOfExts.append(removedLast3CharsFromA)
 
 # functions
 
@@ -112,7 +128,25 @@ def rmf(filePath):
             print(f"{bcolors.FAIL}-> FTR: file not found{bcolors.ENDC}")
 
 
+def genpass(length: int = 0):
+    chars = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890-=+<>?/][{}"
+    password = ""
+    lengthRange = range(random.randint(8, 32))
+    if (length > 0):
+        if (length > 128):
+            return print(f"{bcolors.FAIL}Sorry, but password length can not be more than 128{bcolors.ENDC}")
+        lengthRange = range(length)
+    for i in lengthRange:
+        password = password + chars[random.randint(0, 72)]
+    print(password)
 
+
+def generateQrCode(url: str):
+    if (len(url) > 64):
+        return print(f"{bcolors.WARNING}Sorry, but the maximum URL length is 64{bcolors.ENDC}")
+    clearScreen()
+    text = pyqrcode.create(url)
+    print(text.terminal(module_color="yellow", background="blue", quiet_zone=1))
 
 
 def genpass(length: int = 0):
@@ -133,7 +167,7 @@ def generateQrCode(url: str):
         return print(f"{bcolors.WARNING}Sorry, but the maximum URL length is 64{bcolors.ENDC}")
     clearScreen()
     text = pyqrcode.create(url)
-    print(text.terminal(module_color="yellow", background="blue", quiet_zone=1))
+    print(text.terminal(module_color='yellow', background='blue', quiet_zone=1))
 
 
 def cat(path):
@@ -162,13 +196,24 @@ def runPython3(file):
     else:
         print(
             f"{bcolors.FAIL}sorry but there is no file with name: {file}{bcolors.ENDC}")
-        
+
+
 def createFile(filePath, textLine):
     with open(filePath, "w") as f:
         f.write(textLine)
     print(f"{bcolors.OKGREEN}-> FTR: File '{filePath}' successfully created{bcolors.ENDC}")
-        
-            
+
+
+def openBrowser(url):
+    webbrowser.open_new(url)
+
+
+def runPython3(file):
+    if os.path.isfile(file):
+        exec(open(file).read())
+    else:
+        print(
+            f"{bcolors.FAIL}sorry but there is no file with name: {file}{bcolors.ENDC}")
 
 
 def listCommands():
@@ -252,7 +297,7 @@ def command(value):
                     print(
                         f"{bcolors.FAIL}Please, enter name of new file: crf <name of file>{bcolors.ENDC}")
                 if (lenOfValueList == 2):
-                    createFile(arguments[1])
+                    createFile(arguments[1], "")
                 if (lenOfValueList > 2):
                     printTooManyParamsErr("crf")
             case "web":
@@ -336,4 +381,3 @@ while working:
     commandEnterred = input("FTR <" + os.getcwd() + "> #: ")
 
     command(commandEnterred)
-    
